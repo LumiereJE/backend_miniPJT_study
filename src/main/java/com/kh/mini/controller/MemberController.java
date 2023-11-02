@@ -1,10 +1,12 @@
 package com.kh.mini.controller;
 
 import com.kh.mini.dao.MemberDAO;
+import com.kh.mini.vo.MemberVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 // 프론트(3000)과 백(8111)의 번호가 다르기 때문에 3000 -> 8000을 경유해서 가야해서 이상한거 아니냐고 오류나는것을 방지
@@ -36,6 +38,16 @@ public class MemberController {
         boolean rst = dao.loginCheck(id, pwd);
         return new ResponseEntity<>(rst, HttpStatus.OK);
         // rst 라고 해줘야 id, pwd 일치 확인을 함
+    }
+
+
+    // GET : 회원조회
+    @GetMapping("/member")
+    public ResponseEntity<List<MemberVO>> memberList(@RequestParam String id) {
+        System.out.println("ID : " + id);
+        MemberDAO dao = new MemberDAO();
+        List<MemberVO> list = dao.memberSelect(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
 
